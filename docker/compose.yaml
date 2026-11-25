@@ -1,0 +1,14 @@
+services:
+  engine:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: ad-scenario-engine:latest
+    environment:
+      AD_PKG: /data
+    volumes:
+      - ../pkg:/data:ro     # 共享数据包，只读
+      - ../work:/work      # 计划、报表、台账落盘
+    working_dir: /app/engine
+    # 引擎全程离线：禁网，防止实现层偷偷拉数据
+    network_mode: none

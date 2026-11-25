@@ -1,0 +1,200 @@
+{
+  "upstream_commit": "c20de631a40e24669d1d6a8e2acefd8f492f172d",
+  "checked_at_utc": "2026-11-24T13:41:26.025725+00:00",
+  "status": "required_assets_present",
+  "asset_count": 31,
+  "total_bytes": 250124657,
+  "traffic_csv_rows": 105000,
+  "traffic_csv_columns": 55,
+  "missing": [],
+  "assets": [
+    {
+      "group": "traffic_data",
+      "path": "simul_bidding_env/PvGenerator/model_utils/data/generated_105K_pv_data.csv",
+      "bytes": 93330949,
+      "sha256": "c24cfb72cb78afe9b8c69046ede5e0be950dadeaadf10b3b1d38eba10e5cb08d"
+    },
+    {
+      "group": "traffic_data",
+      "path": "simul_bidding_env/PvGenerator/model_utils/data/PV_time_distribution_data.pkl",
+      "bytes": 2163,
+      "sha256": "f1eb2400495d522a42909c3ecf232b71f41fafd1f582422bc2e42bd7cb50f62c"
+    },
+    {
+      "group": "traffic_data",
+      "path": "simul_bidding_env/PvGenerator/model_utils/data/PV_time_category_relation_data.pkl",
+      "bytes": 92397,
+      "sha256": "4d8b5d7f9f3c6e70bdaad53b0f7cdeb868f86f37e69b2b85af68ee02fd2fd207"
+    },
+    {
+      "group": "traffic_model",
+      "path": "simul_bidding_env/PvGenerator/model_utils/check_point/PV_model/Pv_latest.pth",
+      "bytes": 8730085,
+      "sha256": "6765c94bd5e8bf72688bb77a7a3898208e3a65b7e99c575a9944361046e22ad3"
+    },
+    {
+      "group": "traffic_model",
+      "path": "simul_bidding_env/PvGenerator/model_utils/check_point/PV_model/Pv_args.pkl",
+      "bytes": 2166,
+      "sha256": "0e13043780324d5ccf7fccbcdd1dda413e8568dc6343554770d5f5fa95b61b69"
+    },
+    {
+      "group": "traffic_model",
+      "path": "simul_bidding_env/PvGenerator/model_utils/check_point/PV_model/Pv_info_dict.pkl",
+      "bytes": 4513,
+      "sha256": "556b3df477a509bc0a856da12c55e689759eeac28befeb5ca5c75fc63ea67b8a"
+    },
+    {
+      "group": "traffic_model",
+      "path": "simul_bidding_env/PvGenerator/model_utils/check_point/PV_model/Pv_name_dict.pkl",
+      "bytes": 3477,
+      "sha256": "deaafce33edc81e2f5500b36a2987b30a1485aacfce2447e02ec07c6b5b59ce0"
+    },
+    {
+      "group": "feature_maps",
+      "path": "simul_bidding_env/PvGenerator/model_utils/stats_useful/str_key_map_dict.pkl",
+      "bytes": 2485,
+      "sha256": "440de528652f79a183bff8183a9644e4b40755042e4c458776811fd5adf63820"
+    },
+    {
+      "group": "feature_maps",
+      "path": "simul_bidding_env/PvGenerator/model_utils/stats_useful/pv_useful_key_list.txt",
+      "bytes": 870,
+      "sha256": "549947c2292b6ee7bb9fc9ea58837a75c6e7fc04a0aae28154d56abb0e7a1343"
+    },
+    {
+      "group": "feature_maps",
+      "path": "simul_bidding_env/PvGenerator/model_utils/stats_useful/ad_key_list.txt",
+      "bytes": 115,
+      "sha256": "c7b718b2084103ac23a7911f79383d93ffcbbf9c02e13b8e2c5084dfe65f0df9"
+    },
+    {
+      "group": "competitor_models",
+      "path": "simul_bidding_env/strategy/official_agent/IQLtest/iql_model.pth",
+      "bytes": 339704,
+      "sha256": "c8bd1a9b80d6d65a9f5a9317a52ced4c7132490b30ebe600a256fd0824bbed33"
+    },
+    {
+      "group": "competitor_models",
+      "path": "simul_bidding_env/strategy/official_agent/BCtest/bc_model.pth",
+      "bytes": 87341,
+      "sha256": "7ed4d718e5f44539f4cde96a41c356abc78e456b2b7d41c562347ec2a304c838"
+    },
+    {
+      "group": "competitor_models",
+      "path": "simul_bidding_env/strategy/official_agent/BCQtest/bcq_model.pth",
+      "bytes": 71269762,
+      "sha256": "11667a4e2af5140fc31653cd0981a88b40fcd44ecc69e31c0853b266f8ec2f42"
+    },
+    {
+      "group": "competitor_models",
+      "path": "simul_bidding_env/strategy/official_agent/CQLtest/cql_model.pth",
+      "bytes": 1431734,
+      "sha256": "66a951b9a0de33ca28bceaa617f9dd8ea7f9ed04b2de6654973afbcd9fd99f9c"
+    },
+    {
+      "group": "competitor_models",
+      "path": "simul_bidding_env/strategy/official_agent/TD3_bctest/td3_bc_model.pth",
+      "bytes": 15306861,
+      "sha256": "6da73c6e12acac43b22724e8b52427eead81a172f8f9fa7741148e38df7537f8"
+    },
+    {
+      "group": "competitor_models",
+      "path": "simul_bidding_env/strategy/official_agent/mbrl_mopo/model/policy_model/best_policy.pt",
+      "bytes": 1956294,
+      "sha256": "d60e783eb364f2fa28c58c6f6088ac3c467135308222686c944024e4d5b5d8b9"
+    },
+    {
+      "group": "competitor_models",
+      "path": "simul_bidding_env/strategy/official_agent/mbrl_combomicro/model/policy_model/best_policy.pt",
+      "bytes": 1956488,
+      "sha256": "83984db0d757e73c4f878466f911df0e922159da6873ddc82a54404cc4c48c32"
+    },
+    {
+      "group": "competitor_normalizers",
+      "path": "simul_bidding_env/strategy/official_agent/IQLtest/normalize_dict.pkl",
+      "bytes": 388,
+      "sha256": "777dde7fb0ae25e6d86562ddd59db8d381deccfc5b7c746060ade93120da3219"
+    },
+    {
+      "group": "competitor_normalizers",
+      "path": "simul_bidding_env/strategy/official_agent/BCtest/normalize_dict.pkl",
+      "bytes": 388,
+      "sha256": "777dde7fb0ae25e6d86562ddd59db8d381deccfc5b7c746060ade93120da3219"
+    },
+    {
+      "group": "competitor_normalizers",
+      "path": "simul_bidding_env/strategy/official_agent/BCQtest/normalize_dict.pkl",
+      "bytes": 388,
+      "sha256": "777dde7fb0ae25e6d86562ddd59db8d381deccfc5b7c746060ade93120da3219"
+    },
+    {
+      "group": "competitor_normalizers",
+      "path": "simul_bidding_env/strategy/official_agent/CQLtest/normalize_dict.pkl",
+      "bytes": 388,
+      "sha256": "777dde7fb0ae25e6d86562ddd59db8d381deccfc5b7c746060ade93120da3219"
+    },
+    {
+      "group": "competitor_normalizers",
+      "path": "simul_bidding_env/strategy/official_agent/TD3_bctest/normalize_dict.pkl",
+      "bytes": 388,
+      "sha256": "777dde7fb0ae25e6d86562ddd59db8d381deccfc5b7c746060ade93120da3219"
+    },
+    {
+      "group": "competitor_normalizers",
+      "path": "simul_bidding_env/strategy/official_agent/mbrl_mopo/normalize_dict.pkl",
+      "bytes": 388,
+      "sha256": "777dde7fb0ae25e6d86562ddd59db8d381deccfc5b7c746060ade93120da3219"
+    },
+    {
+      "group": "competitor_normalizers",
+      "path": "simul_bidding_env/strategy/official_agent/mbrl_combomicro/normalize_dict.pkl",
+      "bytes": 388,
+      "sha256": "777dde7fb0ae25e6d86562ddd59db8d381deccfc5b7c746060ade93120da3219"
+    },
+    {
+      "group": "competitor_reference_data",
+      "path": "simul_bidding_env/strategy/official_agent/onlineLpTest/episode-0.csv",
+      "bytes": 7846746,
+      "sha256": "629381be1a580d6759f0472c416360c6e86fb2d2a8a9cf48bc0a0f29a4868d64"
+    },
+    {
+      "group": "competitor_reference_data",
+      "path": "simul_bidding_env/strategy/official_agent/onlineLpTest/episode-1.csv",
+      "bytes": 8057015,
+      "sha256": "7c2e52425d8ceecfad8d5d708343a55a2361216b4a231affebb68c65ed754ee6"
+    },
+    {
+      "group": "competitor_reference_data",
+      "path": "simul_bidding_env/strategy/official_agent/onlineLpTest/episode-2.csv",
+      "bytes": 7709523,
+      "sha256": "b71f7878d041d13b444f233bc851843ce344e4eb79cbc232475b2cbe7071ab36"
+    },
+    {
+      "group": "competitor_reference_data",
+      "path": "simul_bidding_env/strategy/official_agent/onlineLpTest/episode-3.csv",
+      "bytes": 7935544,
+      "sha256": "204cb9ce3e93403ca8ea85569eeaeea326f64ed2ca6c0e7bc883afa48a797b93"
+    },
+    {
+      "group": "competitor_reference_data",
+      "path": "simul_bidding_env/strategy/official_agent/onlineLpTest/episode-4.csv",
+      "bytes": 8035115,
+      "sha256": "1ad4d9a7365b589edd21c15f0a1f9390862e74d2c7d1f4ce38f5e33bd35eade2"
+    },
+    {
+      "group": "competitor_reference_data",
+      "path": "simul_bidding_env/strategy/official_agent/onlineLpTest/episode-5.csv",
+      "bytes": 7945741,
+      "sha256": "9d0cf44ee07fe55ce356ba2ea8bd33e5c6502a1d7e33e75dfe8a377dd6babd47"
+    },
+    {
+      "group": "competitor_reference_data",
+      "path": "simul_bidding_env/strategy/official_agent/onlineLpTest/episode-6.csv",
+      "bytes": 8074853,
+      "sha256": "bb620c4f832714cd7ffd9a7ad1c08bc63842f5d2fca81af8accb5ebcb5f2e4de"
+    }
+  ],
+  "full_80gb_offline_trajectory_dataset_required": false,
+  "runtime_execution_verified": false
+}

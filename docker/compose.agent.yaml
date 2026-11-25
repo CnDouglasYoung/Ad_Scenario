@@ -1,0 +1,50 @@
+# 双容器：引擎（无外网）+ Agent（可出网但不挂数据）
+# 隔离靠网络分层：engine 只在 back 上，back 是 internal，出不了网。
+name: ad-scenario
+
+services:
+  engine:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.server
+    image: ad-scenario-server:latest
+    environment:
+      AD_PKG: /data
+      SCRIPT: "${SCRIPT:-0}"
+      ADMIN_TOKEN: "${ADMIN_TOKEN:-dev}"
+    volumes:
+      - ../pkg:/data:ro
+    networks: [back]
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request;urllib.request.urlopen('http://127.0.0.1:8080/health')"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  agent:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.agent
+    image: ad-scenario-agent:latest
+    environment:
+      ENGINE_URL: http://engine:8080
+      MODEL_NAME: "${MODEL_NAME:-deepseek-chat}"
+      MODEL_BASE_URL: "${MODEL_BASE_URL:-https://api.deepseek.com/v1}"
+      MODEL_API_KEY: "${MODEL_API_KEY:-}"
+      DEEPSEEK_API_KEY: "${DEEPSEEK_API_KEY:-}"
+      ADMIN_TOKEN: "${ADMIN_TOKEN:-dev}"
+      HOME: /tmp            # dsh 需要可写的 HOME
+    depends_on:
+      engine:
+        condition: service_healthy
+    networks: [back, front]      # 只经 back 访问引擎，经 front 出网调模型
+    user: "1000:1000"            # 以宿主用户写盘，避免 root 拥有产物
+    volumes:
+      - ../work:/work            # 轨迹与结果落盘
+    command: ["python3", "agent_loop.py", "--policy", "${POLICY:-rule}"]
+
+networks:
+  back:
+    internal: true               # 引擎无外网
+  front:
+    driver: bridge

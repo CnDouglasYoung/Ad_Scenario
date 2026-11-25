@@ -1,0 +1,18 @@
+# Harbor CLI 运行环境（不含 docker daemon；运行时挂 socket + 宿主 docker 二进制）
+FROM python:3.12-slim
+ENV PYTHONUNBUFFERED=1 PIP_DISABLE_PIP_VERSION_CHECK=1
+RUN pip install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple harbor==0.27.0
+# 用本地模型价格表替换 litellm 自带备份，运行期不再联网拉取
+COPY model_prices.json /tmp/model_prices.json
+RUN python3 - <<'PY'
+import json, litellm, os, shutil
+dst = os.path.join(os.path.dirname(litellm.__file__),
+                   "model_prices_and_context_window_backup.json")
+src = "/tmp/model_prices.json"
+json.load(open(src))                      # 校验是合法 JSON
+shutil.copyfile(src, dst)
+print("litellm cost map replaced:", dst, os.path.getsize(dst))
+PY
+ENV LITELLM_LOCAL_MODEL_COST_MAP=True
+WORKDIR /work
+ENTRYPOINT ["harbor"]

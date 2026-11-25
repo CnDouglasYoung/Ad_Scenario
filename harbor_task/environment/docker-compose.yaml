@@ -1,0 +1,30 @@
+# Harbor 会把 main 服务自动配置好（build context、image、command、volumes、limits）。
+# 这里只做覆盖与补充服务。
+services:
+  main:
+    user: "1000:1000"
+    depends_on:
+      engine:
+        condition: service_healthy
+    environment:
+      ENGINE_URL: http://engine:8080
+      DEEPSEEK_API_KEY: "${DEEPSEEK_API_KEY:-}"
+      MODEL_NAME: "${MODEL_NAME:-}"
+      MODEL_BASE_URL: "${MODEL_BASE_URL:-}"
+      MODEL_API_KEY: "${MODEL_API_KEY:-}"
+      HOME: /tmp
+
+  engine:
+    image: ad-scenario-engine:data   # 引擎 + 七天数据（已烘进镜像）
+    expose:
+      - "8080"
+    environment:
+      AD_PKG: /data
+      ADMIN_TOKEN: "${ADMIN_TOKEN:-bench-local}"
+      SCRIPT: "${SCRIPT:-0}"
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request;urllib.request.urlopen('http://127.0.0.1:8080/health')"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+      start_period: 5s

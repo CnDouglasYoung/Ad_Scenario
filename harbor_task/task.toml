@@ -1,0 +1,101 @@
+schema_version = "1.1"
+
+# 用最后一步（day7）的 verifier 结果作为整轮总评 —— 即归一化主分
+multi_step_reward_strategy = "final"
+
+[task]
+name = "ad-scenario/seven-day-budget"
+description = "七天、¥900、四个广告位组：每天一次出价与预算决策，引擎逐笔回放并判分。"
+authors = [{ name = "Douglas" }]
+keywords = ["advertising", "budget", "long-horizon", "multi-step"]
+
+[metadata]
+difficulty = "hard"
+category = "decision-making"
+tags = ["ads", "budget", "rsi"]
+
+[verifier]
+# verifier 必须能读 root 独占的 /logs/verifier 与引擎真值
+user = "root"
+# separate 会剥离 compose 服务并起全新环境，engine 状态会丢失，故只能用 shared
+environment_mode = "shared"
+
+[environment]
+build_timeout_sec = 900.0
+cpus = 1
+memory_mb = 2048
+storage_mb = 20480
+allow_internet = true          # agent 需要调模型 API
+
+workdir = "/app"
+
+# 引擎服务（无外网）由 environment/docker-compose.yaml 注入
+[[steps]]
+name = "day1"
+min_reward = 1.0
+[steps.agent]
+timeout_sec = 1800.0
+[steps.verifier]
+timeout_sec = 120.0
+[steps.verifier.env]
+DAY = "1"
+
+[[steps]]
+name = "day2"
+min_reward = 1.0
+[steps.agent]
+timeout_sec = 1800.0
+[steps.verifier]
+timeout_sec = 120.0
+[steps.verifier.env]
+DAY = "2"
+
+[[steps]]
+name = "day3"
+min_reward = 1.0
+[steps.agent]
+timeout_sec = 1800.0
+[steps.verifier]
+timeout_sec = 120.0
+[steps.verifier.env]
+DAY = "3"
+
+[[steps]]
+name = "day4"
+min_reward = 1.0
+[steps.agent]
+timeout_sec = 1800.0
+[steps.verifier]
+timeout_sec = 120.0
+[steps.verifier.env]
+DAY = "4"
+
+[[steps]]
+name = "day5"
+min_reward = 1.0
+[steps.agent]
+timeout_sec = 1800.0
+[steps.verifier]
+timeout_sec = 120.0
+[steps.verifier.env]
+DAY = "5"
+
+[[steps]]
+name = "day6"
+min_reward = 1.0
+[steps.agent]
+timeout_sec = 1800.0
+[steps.verifier]
+timeout_sec = 120.0
+[steps.verifier.env]
+DAY = "6"
+
+[[steps]]
+name = "day7"
+min_reward = 0.0
+[steps.agent]
+timeout_sec = 1800.0
+[steps.verifier]
+timeout_sec = 120.0
+[steps.verifier.env]
+DAY = "7"

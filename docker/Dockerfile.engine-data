@@ -1,0 +1,4 @@
+# 把七天数据烘进引擎镜像，供 Harbor 直接引用（免宿主路径挂载）
+FROM ad-scenario-server:latest
+COPY pkg/ /data/
+ENV AD_PKG=/data

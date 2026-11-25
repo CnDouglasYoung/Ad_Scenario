@@ -1,0 +1,8 @@
+{
+  "library": ".venv/lib/python3.9/site-packages/torch/lib/libtorch_cpu.so",
+  "operation": "clear GNU_STACK executable flag in private environment",
+  "before_sha256": "8aac56dbde3b2e00612c78eca5ddc0fcc2fd6cd930cc0fa762495e3b3b0bec18",
+  "after_sha256": "f6b46446ab9ca44682925a0ca402b7e7651e6d1225e0f7442391ab34d4f5c198",
+  "gnu_stack_flags_before": 7,
+  "gnu_stack_flags_after": 6
+}

@@ -1,0 +1,27 @@
+# Agent 运行环境：Node 22（DSH 运行时）+ Python 3.12（回放引擎）
+# 多阶段：在 node 镜像里装好 dsh，再把 node 运行时搬进 python 镜像（不装 apt）。
+
+FROM node:22-slim AS nodeenv
+ARG DSH_VERSION=0.2.1-rc.2
+ARG NPM_REGISTRY=https://registry.npmmirror.com
+RUN npm config set registry "$NPM_REGISTRY" \
+ && npm install -g "@deepseek-ai/dsh@${DSH_VERSION}" \
+ && dsh --version
+
+FROM python:3.12-slim
+ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 AD_PKG=/data
+
+COPY --from=nodeenv /usr/local/bin/node /usr/local/bin/node
+COPY --from=nodeenv /usr/local/lib/node_modules /usr/local/lib/node_modules
+RUN ln -sf /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
+ && ln -sf /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx \
+ && ln -sf /usr/local/lib/node_modules/@deepseek-ai/dsh/lib/bin.js /usr/local/bin/dsh
+
+RUN dsh --version && python3 -V
+
+WORKDIR /app
+COPY engine/ /app/engine/
+COPY agent/ /app/agent/
+RUN mkdir -p /logs/agent && chmod -R 777 /logs
+WORKDIR /app/agent
+CMD ["python3", "agent_loop.py", "--policy", "rule"]

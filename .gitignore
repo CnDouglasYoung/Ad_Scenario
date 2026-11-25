@@ -1,0 +1,32 @@
+# 数据与产物（非公开输入）
+pkg/
+00_raw/
+03_runs/
+work/
+evidence/
+jobs/
+*.log
+
+# 第三方源码与运行环境（体积大，按需下载）
+external/*
+!external/*.json
+auctionnet_runtime/*
+!auctionnet_runtime/*.py
+!auctionnet_runtime/*.txt
+!auctionnet_runtime/*.json
+
+# 内部材料（JD / 复盘 / 面试准备）
+01_notes/
+02_scenario/
+docs/design-report.md
+docs/spec.md
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+# 第三方数据（体积大，按需重新下载）
+vendor/
+docker/model_prices.json
+server/day_tokens.json

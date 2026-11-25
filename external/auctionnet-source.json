@@ -1,0 +1,12 @@
+{
+  "source": "https://github.com/alimama-tech/AuctionNet",
+  "download_url": "https://codeload.github.com/alimama-tech/AuctionNet/tar.gz/refs/heads/main",
+  "archive_sha256": "8dba7b321c1e0183fff917e45f313e05408cea4ea96e96e887a688ec5f0530a8",
+  "archive_metadata": {
+    "comment": "c20de631a40e24669d1d6a8e2acefd8f492f172d"
+  },
+  "downloaded_at_utc": "2026-11-24T13:37:18.091969+00:00",
+  "files": 150,
+  "unpacked_bytes": 264037301,
+  "pre_generated_80gb_dataset_downloaded": false
+}
