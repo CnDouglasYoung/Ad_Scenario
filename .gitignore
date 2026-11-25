@@ -29,4 +29,5 @@ __pycache__/
 # 第三方数据（体积大，按需重新下载）
 vendor/
 docker/model_prices.json
+readme.new*.md
 server/day_tokens.json

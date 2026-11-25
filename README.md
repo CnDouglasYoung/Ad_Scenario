@@ -47,7 +47,7 @@ Ad Scenario 围绕这个问题，使用 iPinYou 历史日志构建一个**七天
 | Benchmark | 核心作用 / 考查点 | 可参考点 | 本项目实际采用情况 |
 |---|---|---|---|
 | [AD-Bench](https://arxiv.org/abs/2602.14257) | 调用广告平台工具回答业务问题，检查答案与工具调用轨迹 | 结合分析结论与查询过程，判断 Agent 是否读懂报表 | 仅作广告分析任务的对照。 |
-| [AuctionNet](https://proceedings.neurips.cc/paper_files/paper/2024/hash/ab9b7c23edfea0011507f7e1eae82cd2-Abstract-Datasets_and_Benchmarks_Track.html) | 让多个竞价 Agent 在同一市场出价，比较策略的投放效果 | 观察报价如何影响赢得的曝光和实际消耗 | 当前七天评测使用 iPinYou 历史回放。AuctionNet 作为第二套环境，用于验证 Agent 在动态变化的市场中的更长期表现，业务层待实现。 |
+| [AuctionNet](https://proceedings.neurips.cc/paper_files/paper/2024/hash/ab9b7c23edfea0011507f7e1eae82cd2-Abstract-Datasets_and_Benchmarks_Track.html) | 让被试者在一个动态变化的市场中出价，比较策略的投放效果 | 观察报价如何影响赢得的曝光和实际消耗 | 当前七天评测使用 iPinYou 历史回放。AuctionNet 作为第二套环境，用于验证 Agent 在动态变化的市场中的更长期表现，业务层待实现。 |
 | [ClawMark](https://arxiv.org/abs/2604.23781) | 任务跨越多个工作日，环境在两轮之间变化，考查 Agent 如何接续工作 | 保留前一天的状态，在任务途中引入新的业务要求 | 采用跨日任务结构。已花预算逐日累计，Agent 要结合最新报表和预算通知修订计划。 |
 | [Terminal-Bench 2.0](https://www.tbench.ai/news/announcement-2-0) | 在终端环境中执行任务，通过测试检查完成情况 | 将任务说明、运行环境和验证程序分开组织 | 采用这种组织方式，用 Harbor 运行七天投放任务，由验证程序检查每日提交和最终结算。 |
 
