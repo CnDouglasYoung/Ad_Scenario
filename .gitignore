@@ -30,4 +30,7 @@ __pycache__/
 vendor/
 docker/model_prices.json
 readme.new*.md
+tools/push_via_api.py
+tools/decompress_sessions.py
+tools/接口约定.md
 server/day_tokens.json
