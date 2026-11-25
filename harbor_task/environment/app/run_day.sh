@@ -42,6 +42,10 @@ if [ -n "${MODEL_NAME:-}" ]; then
   config:
     provider: deepseek-official
     model: ${MODEL_NAME}
+
+# 禁用联网检索工具：仓库公开后，web_search 能直接搜到任务答案
+- id: tool-web
+  disabled: true
 YML
   PATCH="--patch /tmp/dsh-overlay.yml"
   [ -n "${MODEL_API_KEY:-}" ] && export DSH_MODEL_API_KEY="$MODEL_API_KEY"
