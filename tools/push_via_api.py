@@ -79,17 +79,23 @@ def main() -> None:
         print("  ...")
         return
 
-    # 空仓库无法创建 blob（409 Git Repository is empty），先用占位提交初始化
+    # 取当前分支头作为父提交；仓库为空时才做占位提交（Git Data API 要求非空）
     parent = None
     try:
-        ref_res = request("GET", f"/repos/{args.repo}/git/ref/refs/heads/{args.target}", token)
+        ref_res = request("GET", f"/repos/{args.repo}/git/ref/heads/{args.target}", token)
         parent = ref_res["object"]["sha"]
+        print("父提交:", parent[:8])
     except SystemExit:
-        init = request("PUT", f"/repos/{args.repo}/contents/README.md", token, {
-            "message": "chore: 初始化仓库", "content": base64.b64encode(b"# placeholder\n").decode(),
-        })
-        parent = init["commit"]["sha"]
-        print("仓库为空，已创建占位提交:", parent[:8])
+        try:
+            request("GET", f"/repos/{args.repo}/commits/{args.target}", token)
+            raise SystemExit(f"分支 {args.target} 存在但无法读取 ref，请检查权限")
+        except SystemExit:
+            init = request("PUT", f"/repos/{args.repo}/contents/README.md", token, {
+                "message": "chore: 初始化仓库",
+                "content": base64.b64encode(b"# placeholder\n").decode(),
+            })
+            parent = init["commit"]["sha"]
+            print("仓库为空，已创建占位提交:", parent[:8])
 
     tree = []
     for i, (path, sha) in enumerate(files, 1):
@@ -110,14 +116,15 @@ def main() -> None:
     })
     print("commit:", commit["sha"])
 
-    ref = f"refs/heads/{args.target}"
+    head = f"heads/{args.target}"
     try:
-        request("GET", f"/repos/{args.repo}/git/ref/{ref}", token)
-        request("PATCH", f"/repos/{args.repo}/git/refs/{ref}", token, {"sha": commit["sha"], "force": True})
-        print(f"已更新 {ref}")
+        request("PATCH", f"/repos/{args.repo}/git/refs/{head}", token,
+                {"sha": commit["sha"], "force": True})
+        print(f"已更新 {head}")
     except SystemExit:
-        request("POST", f"/repos/{args.repo}/git/refs", token, {"ref": ref, "sha": commit["sha"]})
-        print(f"已创建 {ref}")
+        request("POST", f"/repos/{args.repo}/git/refs", token,
+                {"ref": f"refs/{head}", "sha": commit["sha"]})
+        print(f"已创建 {head}")
     print(f"完成：https://github.com/{args.repo}")
 
 

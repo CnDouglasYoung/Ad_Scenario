@@ -236,6 +236,18 @@ class DshAgent(BaseInstalledAgent):
                     self._session_id = ev["sessionId"]
                     break
 
+            # 会话存档：system prompt 与工具 schema 只能从这里恢复
+            session_rel = None
+            if self._session_id:
+                src = (f"/tmp/.dsh/sessions/--app--/{self._session_id}/"
+                       "session.v4.jsonl.zstd")
+                dst = ev_dir / "session.v4.jsonl.zstd"
+                try:
+                    await environment.download_file(src, dst)
+                    session_rel = str(dst)
+                except Exception as e:
+                    print(f"[dsh-agent] 会话存档拉取失败: {e}", flush=True)
+
             ledger_out = ""
             try:
                 led = await environment.service_exec(
@@ -256,6 +268,7 @@ class DshAgent(BaseInstalledAgent):
                 if stream_path.exists() else 0,
                 "ledger": str(ev_dir / "ledger.jsonl"),
                 "session_id": self._session_id,
+                "session_log": session_rel,
                 "model": conn.model_id,
                 "retries": retries,
                 # 执行时指令：用于训练样本溯源，避免事后指令漂移

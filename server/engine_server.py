@@ -30,6 +30,47 @@ LEDGER_PATH = os.environ.get("LEDGER_PATH", "/var/lib/bench/ledger.jsonl")
 _PROTOCOL = "v2"
 
 _DAY_TOKENS = json.load(open("/app/server/day_tokens.json"))
+
+PREHISTORY_MODE = os.environ.get("PREHISTORY", "auto")   # auto | off | real
+
+
+def load_prehistory():
+    """参考市场概况（真实数据，周期较远，仅供参考）。"""
+    if PREHISTORY_MODE == "off":
+        return None
+    base = os.environ.get("AD_PKG", "/data")
+    path = os.path.join(base, "reference_prior.json")
+    if not os.path.exists(path):
+        if PREHISTORY_MODE == "real":
+            raise SystemExit("[engine] PREHISTORY=real 但找不到 reference_prior.json")
+        return None
+    doc = json.load(open(path, encoding="utf-8"))
+    if PREHISTORY_MODE == "real" and doc.get("provenance", {}).get("synthetic", True):
+        raise SystemExit("[engine] PREHISTORY=real 但文件是合成先验，拒绝启动")
+    if doc.get("observed_day_count", 0) == 0:
+        return None
+    by_group = {}
+    for r in doc["rows"]:
+        g = r["group_id"]
+        d = by_group.setdefault(g, {"days": 0, "impressions": 0, "clicks": 0,
+                                    "conversions": 0, "spend": 0, "p50s": []})
+        d["days"] += 1
+        d["impressions"] += r["impressions"] or 0
+        d["clicks"] += r["clicked_impressions"] or 0
+        d["conversions"] += r["historical_conversions"] or 0
+        d["spend"] += r["historical_spend_units"] or 0
+        if r.get("price_p50_units"):
+            d["p50s"].append(r["price_p50_units"])
+    for g, d in by_group.items():
+        d["ctr"] = round(d["clicks"] / d["impressions"], 4) if d["impressions"] else None
+        d["avg_impressions_per_day"] = int(d["impressions"] / max(1, d["days"]))
+        d["price_p50_median"] = sorted(d["p50s"])[len(d["p50s"]) // 2] if d["p50s"] else None
+        d.pop("p50s", None)
+    return {"start_date": doc["start_date"], "end_date": doc["end_date"],
+            "days": doc["observed_day_count"], "by_group": by_group}
+
+
+_PREHISTORY = None
 _run = None
 _reports = {}
 _ledger = []
@@ -57,9 +98,10 @@ _state = {
 
 
 def bootstrap():
-    global _run
+    global _run, _PREHISTORY
     conv, _ = load_conversions()
     _run = Run(script=SCRIPTS[SCRIPT_KEY], conv=conv)
+    _PREHISTORY = load_prehistory()
     print(f"[engine] protocol={_PROTOCOL} script={SCRIPT_KEY} "
           f"total=¥{SCRIPTS[SCRIPT_KEY].total_yuan}", flush=True)
 
@@ -160,7 +202,13 @@ class Handler(BaseHTTPRequestHandler):
             payload = dict(_reports.get(day - 1, {}))
             if day == 1:
                 if _state["opened_day"] >= 1:
-                    payload = {"day": 1, "groups": {}, "note": "对局期从今天开始"}
+                    payload = {"day": 1, "groups": {}}
+                    if _PREHISTORY:
+                        payload["prehistory"] = _PREHISTORY
+                        payload["note"] = ("对局期从今天开始。附件是参考市场概况，"
+                                           "周期较远，仅供参考")
+                    else:
+                        payload["note"] = "对局期从今天开始（冷启动，无历史参考）"
             n = notice_for(day) if day == _state["opened_day"] else None
             if n:
                 payload["notice"] = n
